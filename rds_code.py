@@ -1,8 +1,6 @@
 import pandas as pd
-import numpy as np
-import matplotlib as mpl
 import json
-import math
+
 
 f = open('rds.json','r')
 relative_diffsets = json.load(f)
