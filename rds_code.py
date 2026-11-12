@@ -67,7 +67,7 @@ def print_set(D,i):
     k = int(S[2])
     lam = int(S[3].split(')')[0])
     print(f'\n{D}',end='')
-    print(f'\n\tR={relative_diffsets[D]["sets"][i][0]}')
+    print(f'\n\tR={relative_diffsets[D]["sets"][i]}')
     
 
 # get the ith (m,n,k,lambda) relative difference set, as a list
@@ -169,3 +169,21 @@ def show_tab(T):
     return df
 
 
+def is_rds(D):
+    """Check whether D = [m,n,k,lam,R] is a cyclic relative difference set."""
+    m, n, k, lam, R = D
+    v = m * n
+
+    if len(R) != k or len(set(R)) != k:
+        return False
+    if any(x < 0 or x >= v for x in R):
+        return False
+
+    counts = [0] * v
+    for a in R:
+        for b in R:
+            if a != b:
+                counts[(a - b) % v] += 1
+
+    return all(counts[d] == (0 if d % m == 0 else lam)
+               for d in range(1, v))
